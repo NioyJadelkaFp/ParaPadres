@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Img/logoIna.webp')}}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Css/estilo.css')}}">
+    <title>{{ titulo_web }} - Instituto Nacional De Apopa</title>
+</head>
+<body>
+
+    <div class="Img">
+        <img src="{{ url_for('static', filename='Img/logoIna.webp')}}" alt="Logo Del Ina">
+    </div>
+
+    <main>
+        {% block content %}
+            <!-- Aquí va tu contenido -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Instituto Nacional De Apopa. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

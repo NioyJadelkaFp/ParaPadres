@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<form action="{{ url_for('index') }}" method="POST" class="Formulario">
+    <input type="text" id="Nie" name="busqueda" placeholder="000000000000" autofocus minlength="7" maxlength="15" autocomplete="off">
+    <button type="submit">Buscar</button>
+</form>
+
+{% if busqueda %}
+    {% if asistencias_hoy %}
+        <div class="lista-item">
+            <input class="trigger-input" id="faq-titulo-1" type="checkbox">
+            <div class="trigger-wrapper">
+                <label for="faq-titulo-1">
+                    <h2 class="faq-titulo">{{ asistencias_hoy[0][0] }}</h2> <!-- Nombre del primer estudiante -->
+                    <p class="faq-titulos">NIE: {{ asistencias_hoy[0][2] }}, Código: {{ asistencias_hoy[0][1] }}</p> <!-- Mostrar NIE y Código del primer estudiante -->
+                </label>
+                <div class="faq-conteudo">
+                    <ul>
+                        {% for asistencia in asistencias_hoy %}
+                            <li>
+                                <strong class="faq-titulos">{{ asistencia[4] }} a las {{ asistencia[5] }} - Entrada</strong>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="lista-item">
+            <h2 class="faq-titulos">No hay asistencias registradas para la búsqueda realizada.</h2>
+        </div>
+    {% endif %}
+
+    {% if salidas_hoy %}
+        <div class="lista-item">
+            <input class="trigger-input" id="faq-titulo-2" type="checkbox">
+            <div class="trigger-wrapper">
+                <label for="faq-titulo-2">
+                    <h2 class="faq-titulo">{{ salidas_hoy[0][0] }}</h2> <!-- Nombre del primer estudiante en salidas -->
+                    <p class="faq-titulos">NIE: {{ salidas_hoy[0][2] }}, Código: {{ salidas_hoy[0][1] }}</p> <!-- Mostrar NIE y Código del primer estudiante en salidas -->
+                </label>
+                <div class="faq-conteudo">
+                    <ul>
+                        {% for salida in salidas_hoy %}
+                            <li>
+                                <strong class="faq-titulos">{{ salida[4] }} a las {{ salida[5] }} - Salida</strong>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="lista-item">
+            <h2 class="faq-titulos">No hay salidas registradas para la búsqueda realizada.</h2>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="lista-item">
+        <h2 class="faq-titulos">Por favor, ingresa un NIE o Código para realizar la búsqueda.</h2>
+    </div>
+{% endif %}
+
+{% endblock %}

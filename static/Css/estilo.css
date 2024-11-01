@@ -1,0 +1,155 @@
+*{
+    margin: 1px;
+    padding: 0;
+    scrollbar-width: none; /* Ocultar en Firefox */
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+main{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 90vh;
+}
+
+.Img {
+    width: 10%; /* Ancho completo */
+    display: flex;
+    justify-content: center; /* Centra el logo */
+}
+
+.Img img {
+    max-width: 100%; /* Hace que la imagen sea responsiva */
+    height: auto; /* Mantiene la proporción de la imagen */
+    object-fit: cover;
+}
+.Formulario{
+    width: 70%;
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.Formulario input{
+    width: 80%;
+    padding-left: 20px;
+    border-radius: 10px 0px 0px 10px;
+    font-size: 20px;
+}
+
+.Formulario input:focus{
+    border-radius: 10px 0px 0px 10px;
+    outline: none; 
+}
+
+.Formulario button{
+    width: 20%;
+    border-radius: 0px 10px 10px 0px;
+}
+
+
+.lista-item {
+    transition: all 0.5s;
+    max-width: 900px;
+    width: 100%; /* Cambiado para ser responsivo */
+    margin-top: 50px;
+    background: white;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(50, 50, 90, .1);
+}
+
+.faq-titulo {
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1.4em;
+    font-family: monospace;
+    color: #8F6ED5;
+}
+.faq-titulos {
+    padding: 10px;
+    font-size: 1.4em;
+    font-family: monospace;
+    color: #8F6ED5;
+}
+
+.faq-titulo::before {
+    content: '';
+    display: inline-block;
+    height: 12px;
+    width: 24px;
+    margin-right: 10px;
+    background: #BEB0F4;
+}
+
+.faq-titulo::after {
+    content: '+';
+    float: right;
+    transition: transform .3s ease;
+}
+
+.faq-conteudo {
+    padding: 10px;
+    color: #6B7C93;
+    font-family: Helvetica;
+    font-size: .875em;
+    line-height: 2em;
+    max-height: 0; /* Oculto por defecto */
+    overflow-y: scroll; /* Ocultar el contenido que exceda */
+    transition: max-height 0.6s ease; /* Animación de altura */
+    scroll-behavior: smooth;
+}
+
+.trigger-input {
+    display: none; /* Ocultar el checkbox */
+}
+
+.trigger-input:checked + .trigger-wrapper .faq-conteudo {
+    max-height: 100px; /* Ajusta este valor según el contenido */
+}
+
+.trigger-input:checked + .trigger-wrapper .faq-titulo::after {
+    transform: rotate(45deg) scale(1.08);
+}
+
+footer {
+    width: 100%; /* Ancho completo */
+    text-align: center; /* Centra el texto */
+    padding: 10px 0;
+    background-color: #f1f1f1; /* Fondo gris claro */
+    position: relative; /* Asegura que el pie de página se mantenga en la parte inferior */
+
+    padding: 10px;
+    font-size: 1.4em;
+    font-family: monospace;
+    color: #8F6ED5;
+}
+
+/* Media Queries para pantallas más pequeñas */
+@media (max-width: 600px) {
+    .faq-titulo {
+        font-size: 1.2em; /* Ajustar el tamaño de fuente */
+    }
+    .faq-titulos {
+        font-size: 1em; /* Ajustar el tamaño de fuente */
+    }
+
+    main {
+        padding: 10px; /* Reduce el padding en pantallas pequeñas */
+        height: 90vh;
+    }
+
+    footer {
+        font-size: 0.8em; /* Tamaño de fuente más pequeño en dispositivos móviles */
+    }
+
+}
