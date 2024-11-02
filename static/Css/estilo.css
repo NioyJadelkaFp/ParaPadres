@@ -1,14 +1,19 @@
 *{
-    margin: 1px;
+    margin: 0;
     padding: 0;
     scrollbar-width: none; /* Ocultar en Firefox */
+    font-family: monospace;
+    font-weight: bold;
 }
 
 body{
     display: flex;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
     margin-top: 20px;
+    overflow-x: hidden;
+    align-items: center;
 }
 
 main{
@@ -23,6 +28,7 @@ main{
     width: 10%; /* Ancho completo */
     display: flex;
     justify-content: center; /* Centra el logo */
+    margin: 20px;
 }
 
 .Img img {
@@ -61,11 +67,11 @@ main{
     max-width: 900px;
     width: 100%; /* Cambiado para ser responsivo */
     margin-top: 50px;
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 4px;
     margin-bottom: 20px;
     padding: 10px;
-    box-shadow: 0 2px 6px rgba(50, 50, 90, .1);
+    box-shadow: 0 20px 16px rgba(94, 94, 94, 0.301);
 }
 
 .faq-titulo {
@@ -73,13 +79,22 @@ main{
     padding: 10px;
     font-size: 1.4em;
     font-family: monospace;
-    color: #8F6ED5;
+    color: #000000;
 }
 .faq-titulos {
     padding: 10px;
     font-size: 1.4em;
     font-family: monospace;
-    color: #8F6ED5;
+    color: #000000;
+}
+
+.Formulario ul{
+    margin-top: 5px;
+}
+
+ul li:first-child .faq-titulos {
+    color: rgb(25, 0, 255); /* Cambia el color al que desees */
+    border-bottom: 1px solid black;
 }
 
 .faq-titulo::before {
@@ -88,7 +103,7 @@ main{
     height: 12px;
     width: 24px;
     margin-right: 10px;
-    background: #BEB0F4;
+    background: #fbff00;
 }
 
 .faq-titulo::after {
@@ -125,13 +140,14 @@ footer {
     width: 100%; /* Ancho completo */
     text-align: center; /* Centra el texto */
     padding: 10px 0;
-    background-color: #f1f1f1; /* Fondo gris claro */
+    background-color: #ffffff; /* Fondo gris claro */
     position: relative; /* Asegura que el pie de página se mantenga en la parte inferior */
+    box-shadow: 0 0px 16px rgba(94, 94, 94, 0.301);
 
     padding: 10px;
     font-size: 1.4em;
     font-family: monospace;
-    color: #8F6ED5;
+    color: #000000;
 }
 
 /* Media Queries para pantallas más pequeñas */
