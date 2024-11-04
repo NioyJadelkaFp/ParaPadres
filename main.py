@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, flash
 import pymysql
+from datetime import datetime
 
 app = Flask(__name__)
-
-# Establecer la clave secreta
-app.secret_key = 'tu_clave_secreta_unica'
 
 def Conexiondb():
     try:
@@ -23,10 +21,10 @@ def Conexiondb():
 def index():
     conn = Conexiondb()
     if not conn:
-        flash("No se pudo conectar a la base de datos.", "danger")
-        return render_template('index.html', asistencias_hoy=[], busqueda='')
+        return render_template('index.html', asistencias_hoy=[], salidas_hoy=[], busqueda='')
 
     asistencias_hoy2 = []
+    salidas_hoy = []
     busqueda = ''
 
     if request.method == 'POST':
@@ -34,19 +32,30 @@ def index():
         if busqueda:
             try:
                 with conn.cursor() as cursor:
+                    # Consulta para entradas
                     cursor.execute(
                         """SELECT e.nombre, e.codigo, e.nie, ent.id_entrada, ent.fecha, ent.hora 
-                        FROM entrada ent
-                        JOIN estudiantes e ON ent.nie = e.nie 
-                        WHERE (e.nie LIKE %s OR e.codigo LIKE %s) 
-                        ORDER BY ent.fecha DESC, ent.hora DESC""",
+                           FROM entrada ent
+                           JOIN estudiantes e ON ent.nie = e.nie 
+                           WHERE (e.nie LIKE %s OR e.codigo LIKE %s) 
+                           ORDER BY ent.fecha DESC, ent.hora DESC""",
                         ('%' + busqueda + '%', '%' + busqueda + '%')
                     )
                     asistencias_hoy2 = cursor.fetchall()
-                    
-                    # Si no hay resultados, mostrar un mensaje
-                    if not asistencias_hoy2:
-                        flash("No se encontraron resultados para la búsqueda.", "warning")
+
+                    # Consulta para salidas
+                    cursor.execute(
+                        """SELECT e.nombre, e.codigo, e.nie, sal.id_salida, sal.fecha, sal.hora 
+                           FROM salida sal
+                           JOIN estudiantes e ON sal.nie = e.nie 
+                           WHERE (e.nie LIKE %s OR e.codigo LIKE %s) 
+                           ORDER BY sal.fecha DESC, sal.hora DESC""",
+                        ('%' + busqueda + '%', '%' + busqueda + '%')
+                    )
+                    salidas_hoy = cursor.fetchall()
+
+                    if not asistencias_hoy2 and not salidas_hoy:
+                        flash("No se encontraron registros para la búsqueda.", "info")
 
             except Exception as e:
                 print(f"Error en la consulta: {str(e)}")
@@ -56,7 +65,7 @@ def index():
         else:
             flash("Por favor, ingresa un NIE o Código para buscar.", "warning")
 
-    return render_template('index.html', asistencias_hoy=asistencias_hoy2, busqueda=busqueda)
+    return render_template('index.html', asistencias_hoy=asistencias_hoy2, salidas_hoy=salidas_hoy, busqueda=busqueda)
 
 if __name__ == '__main__':
     app.run(debug=True)

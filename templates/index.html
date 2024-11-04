@@ -3,7 +3,7 @@
 {% block content %}
 
 <form action="{{ url_for('index') }}" method="POST" class="Formulario">
-    <input type="text" id="Nie" name="busqueda" placeholder="000000000000" autofocus minlength="7" maxlength="15" autocomplete="off">
+    <input type="text" id="Nie" name="busqueda" placeholder="000000000000" autofocus minlength="4" maxlength="15" autocomplete="off">
     <button type="submit">Buscar</button>
 </form>
 
@@ -13,8 +13,8 @@
             <input class="trigger-input" id="faq-titulo-1" type="checkbox">
             <div class="trigger-wrapper">
                 <label for="faq-titulo-1">
-                    <h2 class="faq-titulo">{{ asistencias_hoy[0][0] }}</h2> <!-- Nombre del primer estudiante -->
-                    <p class="faq-titulos">NIE: {{ asistencias_hoy[0][2] }}, Código: {{ asistencias_hoy[0][1] }}</p> <!-- Mostrar NIE y Código del primer estudiante -->
+                    <h2 class="faq-titulo">{{ asistencias_hoy[0][0] }}</h2>
+                    <p class="faq-titulos">NIE: {{ asistencias_hoy[0][2] }}, Código: {{ asistencias_hoy[0][1] }}</p>
                 </label>
                 <div class="faq-conteudo">
                     <ul>
@@ -38,8 +38,8 @@
             <input class="trigger-input" id="faq-titulo-2" type="checkbox">
             <div class="trigger-wrapper">
                 <label for="faq-titulo-2">
-                    <h2 class="faq-titulo">{{ salidas_hoy[0][0] }}</h2> <!-- Nombre del primer estudiante en salidas -->
-                    <p class="faq-titulos">NIE: {{ salidas_hoy[0][2] }}, Código: {{ salidas_hoy[0][1] }}</p> <!-- Mostrar NIE y Código del primer estudiante en salidas -->
+                    <h2 class="faq-titulo">{{ salidas_hoy[0][0] }}</h2>
+                    <p class="faq-titulos">NIE: {{ salidas_hoy[0][2] }}, Código: {{ salidas_hoy[0][1] }}</p>
                 </label>
                 <div class="faq-conteudo">
                     <ul>

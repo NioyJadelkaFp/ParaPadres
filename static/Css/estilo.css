@@ -12,7 +12,6 @@ body{
     flex-direction: column;
     width: 100%;
     margin-top: 20px;
-    overflow-x: hidden;
     align-items: center;
 }
 
@@ -66,6 +65,7 @@ main{
     transition: all 0.5s;
     max-width: 900px;
     width: 100%; /* Cambiado para ser responsivo */
+    height: auto;
     margin-top: 50px;
     background: rgb(255, 255, 255);
     border-radius: 4px;
@@ -118,7 +118,7 @@ ul li:first-child .faq-titulos {
     font-family: Helvetica;
     font-size: .875em;
     line-height: 2em;
-    max-height: 0; /* Oculto por defecto */
+    height: auto;
     overflow-y: scroll; /* Ocultar el contenido que exceda */
     transition: max-height 0.6s ease; /* Animación de altura */
     scroll-behavior: smooth;
