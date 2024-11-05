@@ -1,71 +1,36 @@
-from flask import Flask, render_template, request, flash
-import pymysql
-from datetime import datetime
+from flask import Flask, render_template, request, jsonify
+import requests
 
 app = Flask(__name__)
 
-def Conexiondb():
-    try:
-        conn = pymysql.connect(
-            host='by8ekzvhusvvn2yqc71b-mysql.services.clever-cloud.com',
-            database='by8ekzvhusvvn2yqc71b',
-            user='uueyyhu8xg3oenlv',
-            password='VFbwWo8TNmZQbg04Dd7i'
-        )
-        return conn
-    except Exception as e:
-        print(f"Error de conexión a la base de datos: {str(e)}")
-        return None
+# Suponiendo que la URL de la API es la siguiente
+API_URL = 'http://127.0.0.1:5000/api/asistencias'  # Cambia esto con la URL correcta de tu API externa
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    conn = Conexiondb()
-    if not conn:
-        return render_template('index.html', asistencias_hoy=[], salidas_hoy=[], busqueda='')
+    busqueda = request.args.get('busqueda', '').strip()  # Asegúrate de eliminar espacios
 
-    asistencias_hoy2 = []
-    salidas_hoy = []
-    busqueda = ''
+    # Hacer la solicitud a la API externa
+    try:
+        response = requests.get(API_URL, params={'busqueda': busqueda})
 
-    if request.method == 'POST':
-        busqueda = request.form.get('busqueda', '').strip()
-        if busqueda:
-            try:
-                with conn.cursor() as cursor:
-                    # Consulta para entradas
-                    cursor.execute(
-                        """SELECT e.nombre, e.codigo, e.nie, ent.id_entrada, ent.fecha, ent.hora 
-                           FROM entrada ent
-                           JOIN estudiantes e ON ent.nie = e.nie 
-                           WHERE (e.nie LIKE %s OR e.codigo LIKE %s) 
-                           ORDER BY ent.fecha DESC, ent.hora DESC""",
-                        ('%' + busqueda + '%', '%' + busqueda + '%')
-                    )
-                    asistencias_hoy2 = cursor.fetchall()
-
-                    # Consulta para salidas
-                    cursor.execute(
-                        """SELECT e.nombre, e.codigo, e.nie, sal.id_salida, sal.fecha, sal.hora 
-                           FROM salida sal
-                           JOIN estudiantes e ON sal.nie = e.nie 
-                           WHERE (e.nie LIKE %s OR e.codigo LIKE %s) 
-                           ORDER BY sal.fecha DESC, sal.hora DESC""",
-                        ('%' + busqueda + '%', '%' + busqueda + '%')
-                    )
-                    salidas_hoy = cursor.fetchall()
-
-                    if not asistencias_hoy2 and not salidas_hoy:
-                        flash("No se encontraron registros para la búsqueda.", "info")
-
-            except Exception as e:
-                print(f"Error en la consulta: {str(e)}")
-                flash("Error al consultar la base de datos.", "danger")
-            finally:
-                conn.close()
+        # Verificar si la solicitud fue exitosa
+        if response.status_code == 200:
+            data = response.json()  # Recibimos los datos en formato JSON
+            asistencias_hoy = data.get("asistencias", [])
+            salidas_hoy = data.get("salidas", [])
         else:
-            flash("Por favor, ingresa un NIE o Código para buscar.", "warning")
+            return jsonify({"error": "Error al obtener los datos de la API externa"}), 500
+    except requests.exceptions.RequestException as e:
+        print(f"Error al hacer la solicitud HTTP: {e}")
+        return jsonify({"error": "Error de conexión con la API externa"}), 500
 
-    return render_template('index.html', asistencias_hoy=asistencias_hoy2, salidas_hoy=salidas_hoy, busqueda=busqueda)
+    # Si no hay asistencias ni salidas
+    if not asistencias_hoy and not salidas_hoy:
+        return jsonify({"message": "No hay registros para la búsqueda realizada."})
+
+    # Pasamos los datos a la plantilla index.html
+    return render_template('index.html', asistencias_hoy=asistencias_hoy, salidas_hoy=salidas_hoy, busqueda=busqueda)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5001, debug=True)
