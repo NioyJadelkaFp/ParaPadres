@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, flash
 import pymysql
-from datetime import datetime
+
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'Jadelka'
 
 def Conexiondb():
+    """Establece la conexión a la base de datos y maneja errores de conexión."""
     try:
         conn = pymysql.connect(
             host='by8ekzvhusvvn2yqc71b-mysql.services.clever-cloud.com',
@@ -12,6 +14,7 @@ def Conexiondb():
             user='uueyyhu8xg3oenlv',
             password='VFbwWo8TNmZQbg04Dd7i'
         )
+        print("Conexión exitosa a la base de datos")
         return conn
     except Exception as e:
         print(f"Error de conexión a la base de datos: {str(e)}")
@@ -21,6 +24,7 @@ def Conexiondb():
 def index():
     conn = Conexiondb()
     if not conn:
+        flash("No se pudo conectar a la base de datos.", "danger")
         return render_template('index.html', asistencias_hoy=[], salidas_hoy=[], busqueda='')
 
     asistencias_hoy2 = []
@@ -29,6 +33,8 @@ def index():
 
     if request.method == 'POST':
         busqueda = request.form.get('busqueda', '').strip()
+        print(f"Buscando por: {busqueda}")
+        
         if busqueda:
             try:
                 with conn.cursor() as cursor:
@@ -42,6 +48,7 @@ def index():
                         ('%' + busqueda + '%', '%' + busqueda + '%')
                     )
                     asistencias_hoy2 = cursor.fetchall()
+                    print(f"Resultados de asistencias: {asistencias_hoy2}")
 
                     # Consulta para salidas
                     cursor.execute(
@@ -53,7 +60,9 @@ def index():
                         ('%' + busqueda + '%', '%' + busqueda + '%')
                     )
                     salidas_hoy = cursor.fetchall()
+                    print(f"Resultados de salidas: {salidas_hoy}")
 
+                    # Mensaje si no hay resultados
                     if not asistencias_hoy2 and not salidas_hoy:
                         flash("No se encontraron registros para la búsqueda.", "info")
 
@@ -61,11 +70,11 @@ def index():
                 print(f"Error en la consulta: {str(e)}")
                 flash("Error al consultar la base de datos.", "danger")
             finally:
-                conn.close()
+                conn.close()  # Asegúrate de cerrar la conexión después de usarla
         else:
             flash("Por favor, ingresa un NIE o Código para buscar.", "warning")
 
     return render_template('index.html', asistencias_hoy=asistencias_hoy2, salidas_hoy=salidas_hoy, busqueda=busqueda)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
