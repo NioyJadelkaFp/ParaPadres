@@ -9,10 +9,10 @@ def Conexiondb():
     """Establece la conexión a la base de datos y maneja errores de conexión."""
     try:
         conn = pymysql.connect(
-            host='by8ekzvhusvvn2yqc71b-mysql.services.clever-cloud.com',
-            database='by8ekzvhusvvn2yqc71b',
-            user='uueyyhu8xg3oenlv',
-            password='VFbwWo8TNmZQbg04Dd7i'
+            host='institutonacionaldeapopa.mysql.pythonanywhere-services.com',
+    database='institutonaciona$Ina',  # Ensure this is correct
+    user='institutonaciona',          # Your username
+    password='jadelka1234' 
         )
         print("Conexión exitosa a la base de datos")
         return conn
