@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="{{ url_for('index') }}" method="GET" class="Formulario">
+<form action="{{ url_for('index') }}" method="POST" class="Formulario">
     <input type="text" id="Nie" name="busqueda" placeholder="000000000000" autofocus minlength="4" maxlength="15" autocomplete="off">
     <button type="submit">Buscar</button>
 </form>

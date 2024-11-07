@@ -72,17 +72,9 @@ def index():
             finally:
                 conn.close()  # Asegúrate de cerrar la conexión después de usarla
         else:
-            return jsonify({"error": "Error al obtener los datos de la API externa"}), 500
-    except requests.exceptions.RequestException as e:
-        print(f"Error al hacer la solicitud HTTP: {e}")
-        return jsonify({"error": "Error de conexión con la API externa"}), 500
+            flash("Por favor, ingresa un NIE o Código para buscar.", "warning")
 
-    # Si no hay asistencias ni salidas
-    if not asistencias_hoy and not salidas_hoy:
-        return jsonify({"message": "No hay registros para la búsqueda realizada."})
-
-    # Pasamos los datos a la plantilla index.html
-    return render_template('index.html', asistencias_hoy=asistencias_hoy, salidas_hoy=salidas_hoy, busqueda=busqueda)
+    return render_template('index.html', asistencias_hoy=asistencias_hoy2, salidas_hoy=salidas_hoy, busqueda=busqueda)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
