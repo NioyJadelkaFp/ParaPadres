@@ -1,0 +1,35 @@
+2024-11-07 21:20:31,843 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.1.15:5001
+2024-11-07 21:20:31,843 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2024-11-07 21:20:31,863 - werkzeug - INFO -  * Restarting with stat
+2024-11-07 21:20:32,675 - werkzeug - WARNING -  * Debugger is active!
+2024-11-07 21:20:32,710 - werkzeug - INFO -  * Debugger PIN: 152-141-602
+2024-11-07 21:20:36,415 - __main__ - INFO - Search query received: 000101
+2024-11-07 21:20:36,569 - __main__ - INFO - Found 13 attendance records
+2024-11-07 21:20:36,726 - __main__ - INFO - Found 0 exit records
+2024-11-07 21:20:36,760 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:36] "POST / HTTP/1.1" 200 -
+2024-11-07 21:20:36,964 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:36] "[36mGET /static/Img/fondo.jfif HTTP/1.1[0m" 304 -
+2024-11-07 21:20:36,972 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:36] "[36mGET /static/Img/logoIna.webp HTTP/1.1[0m" 304 -
+2024-11-07 21:20:36,978 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:36] "[36mGET /static/Css/estilo.css HTTP/1.1[0m" 304 -
+2024-11-07 21:20:37,113 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:37] "[36mGET /static/Img/logoIna.webp HTTP/1.1[0m" 304 -
+2024-11-07 21:20:41,121 - __main__ - INFO - Search query received: 000101
+2024-11-07 21:20:41,264 - __main__ - INFO - Found 13 attendance records
+2024-11-07 21:20:41,404 - __main__ - INFO - Found 0 exit records
+2024-11-07 21:20:41,410 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:41] "POST / HTTP/1.1" 200 -
+2024-11-07 21:20:41,450 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:41] "[36mGET /static/Css/estilo.css HTTP/1.1[0m" 304 -
+2024-11-07 21:20:41,474 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:41] "[36mGET /static/Img/logoIna.webp HTTP/1.1[0m" 304 -
+2024-11-07 21:20:41,488 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:41] "[36mGET /static/Img/fondo.jfif HTTP/1.1[0m" 304 -
+2024-11-07 21:20:50,302 - __main__ - INFO - Search query received: 000203
+2024-11-07 21:20:50,445 - __main__ - INFO - Found 6 attendance records
+2024-11-07 21:20:50,593 - __main__ - INFO - Found 1 exit records
+2024-11-07 21:20:50,595 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:50] "POST / HTTP/1.1" 200 -
+2024-11-07 21:20:50,638 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:50] "[36mGET /static/Css/estilo.css HTTP/1.1[0m" 304 -
+2024-11-07 21:20:50,639 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:50] "[36mGET /static/Img/logoIna.webp HTTP/1.1[0m" 304 -
+2024-11-07 21:20:50,650 - werkzeug - INFO - 192.168.1.15 - - [07/Nov/2024 21:20:50] "[36mGET /static/Img/fondo.jfif HTTP/1.1[0m" 304 -
+2024-11-07 21:21:10,188 - werkzeug - INFO -  * Detected change in 'c:\\Users\\ezequ\\OneDrive\\Desktop\\ParaPadres\\main.py', reloading
+2024-11-07 21:21:10,260 - werkzeug - INFO -  * Restarting with stat
+2024-11-07 21:32:03,046 - werkzeug - INFO -  * Restarting with stat
+2024-11-07 21:32:32,947 - werkzeug - INFO -  * Restarting with stat
+2024-11-07 21:33:21,698 - werkzeug - INFO -  * Restarting with stat

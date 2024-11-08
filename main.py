@@ -1,29 +1,19 @@
 from flask import Flask, render_template, request, flash
-import pymysql
-
+from config.config import Config
+from models.database import db_operation, get_db_connection
+import logging
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Jadelka'
 
-def Conexiondb():
-    """Establece la conexión a la base de datos y maneja errores de conexión."""
-    try:
-        conn = pymysql.connect(
-            host='institutonacionaldeapopa.mysql.pythonanywhere-services.com',
-    database='institutonaciona$Ina',  # Ensure this is correct
-    user='institutonaciona',          # Your username
-    password='jadelka1234' 
-        )
-        print("Conexión exitosa a la base de datos")
-        return conn
-    except Exception as e:
-        print(f"Error de conexión a la base de datos: {str(e)}")
-        return None
+logging.basicConfig(level=logging.INFO)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    titulo_web:str = "Inicio"
-    conn = Conexiondb()
+    titulo_web = "Inicio"
+    conn = get_db_connection()
+
     if not conn:
         flash("No se pudo conectar a la base de datos.", "danger")
         return render_template('index.html', asistencias_hoy=[], salidas_hoy=[], busqueda='')
@@ -34,14 +24,14 @@ def index():
 
     if request.method == 'POST':
         busqueda = request.form.get('busqueda', '').strip()
-        print(f"Buscando por: {busqueda}")
+        logging.info(f"[{datetime.datetime.now()}] Buscando por: {busqueda}")
         
         if busqueda:
             try:
                 with conn.cursor() as cursor:
                     # Consulta para entradas
                     cursor.execute(
-                        """SELECT e.nombre, e.codigo, e.nie, ent.id_entrada, ent.fecha, ent.hora 
+                        """SELECT e.*, ent.id_entrada, ent.fecha, ent.hora 
                            FROM entrada ent
                            JOIN estudiantes e ON ent.nie = e.nie 
                            WHERE (e.nie LIKE %s OR e.codigo LIKE %s) 
@@ -49,7 +39,7 @@ def index():
                         ('%' + busqueda + '%', '%' + busqueda + '%')
                     )
                     asistencias_hoy2 = cursor.fetchall()
-                    print(f"Resultados de asistencias: {asistencias_hoy2}")
+                    logging.info(f"Resultados de asistencias: {asistencias_hoy2}")
 
                     # Consulta para salidas
                     cursor.execute(
@@ -61,17 +51,17 @@ def index():
                         ('%' + busqueda + '%', '%' + busqueda + '%')
                     )
                     salidas_hoy = cursor.fetchall()
-                    print(f"Resultados de salidas: {salidas_hoy}")
+                    logging.info(f"Resultados de salidas: {salidas_hoy}")
 
                     # Mensaje si no hay resultados
                     if not asistencias_hoy2 and not salidas_hoy:
                         flash("No se encontraron registros para la búsqueda.", "info")
 
             except Exception as e:
-                print(f"Error en la consulta: {str(e)}")
+                logging.error(f"Error en la consulta: {str(e)}")
                 flash("Error al consultar la base de datos.", "danger")
             finally:
-                conn.close()  # Asegúrate de cerrar la conexión después de usarla
+                conn.close()  
         else:
             flash("Por favor, ingresa un NIE o Código para buscar.", "warning")
 
