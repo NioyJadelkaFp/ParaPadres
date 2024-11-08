@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='Css/estilo.css')}}">
     <title>{{ titulo_web }} - Instituto Nacional De Apopa</title>
 </head>
-<body>
+<body style="background-repeat: no-repeat; background-size: cover; background-image: url({{ url_for('static', filename='Img/fondo.jfif')}}); ">
 
     <div class="Img">
         <img src="{{ url_for('static', filename='Img/logoIna.webp')}}" alt="Logo Del Ina">
     </div>
     
-    <main style="width: 100hv; height: auto;">
+    <main style="width: 100%; height: auto;">
         {% block content %}
             <!-- Aquí va tu contenido -->
         {% endblock %}

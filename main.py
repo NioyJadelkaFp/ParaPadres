@@ -22,6 +22,7 @@ def Conexiondb():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    titulo_web:str = "Inicio"
     conn = Conexiondb()
     if not conn:
         flash("No se pudo conectar a la base de datos.", "danger")
@@ -74,7 +75,7 @@ def index():
         else:
             flash("Por favor, ingresa un NIE o Código para buscar.", "warning")
 
-    return render_template('index.html', asistencias_hoy=asistencias_hoy2, salidas_hoy=salidas_hoy, busqueda=busqueda)
+    return render_template('index.html', asistencias_hoy=asistencias_hoy2, salidas_hoy=salidas_hoy, busqueda=busqueda, titulo_web=titulo_web)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
