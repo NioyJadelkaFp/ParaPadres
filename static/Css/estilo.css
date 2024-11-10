@@ -165,6 +165,13 @@ footer {
     font-family: monospace;
 }
 
+#calendar{
+    background-color: white;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
 /* Media Queries para pantallas más pequeñas */
 @media (max-width: 600px) {
     .faq-titulo {

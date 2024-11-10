@@ -1,66 +1,100 @@
 {% extends "layout.html" %}
-
 {% block content %}
+    <form method="POST" class="Formulario">
+        <input type="text" id="Nie" name="busqueda" placeholder="000000000000" autofocus minlength="4" maxlength="15" autocomplete="off">
+        <button type="submit">Buscar</button>
+    </form>
 
-<form method="POST" class="Formulario">
-    <input type="text" id="Nie" name="busqueda" placeholder="000000000000" autofocus minlength="4" maxlength="15" autocomplete="off">
-    <button type="submit">Buscar</button>
-</form>
-
-{% if busqueda %}
-    {% if asistencias_hoy %}
-        <div class="lista-item">
-            <input class="trigger-input" id="faq-titulo-1" type="checkbox">
-            <div class="trigger-wrapper">
-                <label for="faq-titulo-1">
-                    <h2 class="faq-titulo">{{ asistencias_hoy[0]['nombre'] }}</h2>
-                    <p class="faq-titulos">NIE: {{ asistencias_hoy[0]['nie'] }}, Código: {{ asistencias_hoy[0]['codigo'] }}</p>
-                </label>
-                <div class="faq-conteudo">
-                    <ul>
-                        {% for asistencia in asistencias_hoy %}
-                            <li>
-                                <strong class="faq-titulos">{{ asistencia['fecha'] }} a las {{ asistencia['hora'] }} - Entrada</strong>
-                            </li>
-                        {% endfor %}
-                    </ul>
+    <!-- Mostrar lista de asistencias y salidas -->
+    {% if busqueda %}
+        {% if asistencias_hoy %}
+            <div class="lista-item">
+                <input class="trigger-input" id="faq-titulo-1" type="checkbox">
+                <div class="trigger-wrapper">
+                    <label for="faq-titulo-1">
+                        <h2 class="faq-titulo">{{ asistencias_hoy[0]['nombre'] }}</h2>
+                        <p class="faq-titulos">NIE: {{ asistencias_hoy[0]['nie'] }}, Código: {{ asistencias_hoy[0]['codigo'] }}</p>
+                    </label>
+                    <div class="faq-conteudo">
+                        <ul>
+                            {% for asistencia in asistencias_hoy %}
+                                <li>
+                                    <strong class="faq-titulos">{{ asistencia['fecha'] }} a las {{ asistencia['hora'] }} - Entrada</strong>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% else %}
+            <div class="lista-item">
+                <h2 class="faq-titulos">No hay asistencias registradas para la búsqueda realizada.</h2>
+            </div>
+        {% endif %}
+
+        {% if salidas_hoy %}
+            <div class="lista-item">
+                <input class="trigger-input" id="faq-titulo-2" type="checkbox">
+                <div class="trigger-wrapper">
+                    <label for="faq-titulo-2">
+                        <h2 class="faq-titulo">{{ salidas_hoy[0]['nombre'] }}</h2>
+                        <p class="faq-titulos">NIE: {{ salidas_hoy[0]['nie'] }}, Código: {{ salidas_hoy[0]['codigo'] }}</p>
+                    </label>
+                    <div class="faq-conteudo">
+                        <ul>
+                            {% for salida in salidas_hoy %}
+                                <li>
+                                    <strong class="faq-titulos">{{ salida['fecha'] }} a las {{ salida['hora'] }} - Salida</strong>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="lista-item">
+                <h2 class="faq-titulos">No hay salidas registradas para la búsqueda realizada.</h2>
+            </div>
+        {% endif %}
+
+        <!-- Agregar el calendario debajo de la lista -->
+        <div id="calendar"></div>
+
     {% else %}
         <div class="lista-item">
-            <h2 class="faq-titulos">No hay asistencias registradas para la búsqueda realizada.</h2>
+            <h2 class="faq-titulos">Por favor, ingresa un NIE o Código para realizar la búsqueda.</h2>
         </div>
     {% endif %}
 
-    {% if salidas_hoy %}
-        <div class="lista-item">
-            <input class="trigger-input" id="faq-titulo-2" type="checkbox">
-            <div class="trigger-wrapper">
-                <label for="faq-titulo-2">
-                    <h2 class="faq-titulo">{{ salidas_hoy[0]['nombre'] }}</h2>
-                    <p class="faq-titulos">NIE: {{ salidas_hoy[0]['nie'] }}, Código: {{ salidas_hoy[0]['codigo'] }}</p>
-                </label>
-                <div class="faq-conteudo">
-                    <ul>
-                        {% for salida in salidas_hoy %}
-                            <li>
-                                <strong class="faq-titulos">{{ salida['fecha'] }} a las {{ salida['hora'] }} - Salida</strong>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <div class="lista-item">
-            <h2 class="faq-titulos">No hay salidas registradas para la búsqueda realizada.</h2>
-        </div>
-    {% endif %}
-{% else %}
-    <div class="lista-item">
-        <h2 class="faq-titulos">Por favor, ingresa un NIE o Código para realizar la búsqueda.</h2>
-    </div>
-{% endif %}
+    <!-- Importar FullCalendar CSS y JS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    // Asistencias en verde
+                    {% for asistencia in asistencias_hoy %}
+                        {
+                            title: 'Asistencia',
+                            start: '{{ asistencia["fecha"] }}',
+                            color: 'green'
+                        },
+                    {% endfor %}
+                    // Salidas en rojo si falta la asistencia
+                    {% for fecha in fechas_sin_asistencia %}
+                        {
+                            title: 'No Asistió',
+                            start: '{{ fecha }}',
+                            color: 'red'
+                        },
+                    {% endfor %}
+                ]
+            });
+            calendar.render();
+        });
+    </script>
 {% endblock %}
